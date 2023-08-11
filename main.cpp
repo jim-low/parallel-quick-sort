@@ -21,7 +21,7 @@ int main()
 	quickSort.sort();
 	clock_t end = clock();
 
-	quickSort.display();
+	//quickSort.display();
 	//std::cout << "it took too much time to print out 1 million numbers so heres a line of text for reference." << std::endl;
 	double elapsedTime = double(end - start) / CLOCKS_PER_SEC;
 
