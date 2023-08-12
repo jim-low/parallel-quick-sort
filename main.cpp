@@ -12,7 +12,7 @@ int main()
 
 	for (int i = 0; i < size; ++i)
 	{
-		arr[i] = -800 + (rand() % 1000000);
+		arr[i] = -(int)size + (rand() % size);
 	}
 
 	QuickSort quickSort = QuickSort(arr, size);
@@ -22,7 +22,6 @@ int main()
 	clock_t end = clock();
 
 	//quickSort.display();
-	//std::cout << "it took too much time to print out 1 million numbers so heres a line of text for reference." << std::endl;
 	double elapsedTime = double(end - start) / CLOCKS_PER_SEC;
 
 	std::cout << "Time taken: " << elapsedTime << " seconds" << std::endl;
