@@ -15,6 +15,12 @@ QuickSort::QuickSort(int* arr, size_t size)
 	}
 }
 
+QuickSort::~QuickSort()
+{
+	free(this->unsorted);
+	free(this->sorted);
+}
+
 void QuickSort::sort()
 {
 	this->quicksort(this->sorted, 0, this->size - 1);

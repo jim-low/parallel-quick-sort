@@ -14,6 +14,7 @@ public:
 	size_t size;
 
 	QuickSort(int* arr, size_t size);
+	~QuickSort();
 	void sort();
 	void display(); // this is where all the fancy fancy stuff gon be shown
 

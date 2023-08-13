@@ -10,6 +10,7 @@ public:
 	size_t size;
 
 	ParallelQuickSort(int* arr, size_t size);
+	~ParallelQuickSort();
 	void sort();
 	void display(); // this is where all the fancy fancy stuff gon be shown
 
