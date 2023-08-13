@@ -9,7 +9,7 @@ public:
 	int* sorted;
 	size_t size;
 
-	ParallelQuickSort(int* unsorted_array, size_t size);
+	ParallelQuickSort(int* arr, size_t size);
 	void sort();
 	void display(); // this is where all the fancy fancy stuff gon be shown
 

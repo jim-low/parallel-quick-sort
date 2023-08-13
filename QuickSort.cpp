@@ -1,7 +1,7 @@
 #include <iostream>
 #include "QuickSort.h"
 
-QuickSort::QuickSort(int* unsorted_array, size_t size)
+QuickSort::QuickSort(int* arr, size_t size)
 {
 	this->size = size;
 	this->unsorted = (int*)calloc(size, sizeof(int));
@@ -10,8 +10,8 @@ QuickSort::QuickSort(int* unsorted_array, size_t size)
 	// deep copy into array
 	for (int i = 0; i < size; ++i)
 	{
-		this->unsorted[i] = unsorted_array[i];
-		this->sorted[i] = unsorted_array[i];
+		this->unsorted[i] = arr[i];
+		this->sorted[i] = arr[i];
 	}
 }
 

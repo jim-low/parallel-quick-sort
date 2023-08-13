@@ -8,7 +8,7 @@ int main()
 {
 	size_t size = 1000000;
 	int* arr = (int*)calloc(size, sizeof(int));
-	// int size = sizeof(arr) / sizeof(int);
+	 int size = sizeof(arr) / sizeof(int);
 
 	for (int i = 0; i < size; ++i)
 	{

@@ -1,7 +1,18 @@
 #include <iostream>
 #include "ParallelQuickSort.h"
 
-ParallelQuickSort::ParallelQuickSort(int* unsorted_array, size_t size)
+#pragma region Notes
+
+// Here are the possible pragma omp clauses that we may need to make it parallel (according to ChatGPT):
+// #pragma omp parallel
+// #pragma omp single nowait
+// #pragma omp task
+// #pragma omp taskwait
+// #pragma omp parallel for
+
+#pragma endregion Notes
+
+ParallelQuickSort::ParallelQuickSort(int* arr, size_t size)
 {
 	this->size = size;
 	this->unsorted = (int*)calloc(size, sizeof(int));
@@ -10,8 +21,8 @@ ParallelQuickSort::ParallelQuickSort(int* unsorted_array, size_t size)
 	// deep copy into array
 	for (int i = 0; i < size; ++i)
 	{
-		this->unsorted[i] = unsorted_array[i];
-		this->sorted[i] = unsorted_array[i];
+		this->unsorted[i] = arr[i];
+		this->sorted[i] = arr[i];
 	}
 }
 
@@ -51,7 +62,7 @@ void ParallelQuickSort::quicksort(int* arr, int low, int high)
 int ParallelQuickSort::partition(int* arr, int low, int high)
 {
 	int pivot = arr[high];
-	int swapMarker = low - 1; // idk why but fuck it
+	int swapMarker = low - 1;
 
 	for (int j = low; j < high; ++j) {
 		if (arr[j] <= pivot) {

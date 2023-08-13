@@ -13,7 +13,7 @@ public:
 	int* sorted;
 	size_t size;
 
-	QuickSort(int* unsorted_array, size_t size);
+	QuickSort(int* arr, size_t size);
 	void sort();
 	void display(); // this is where all the fancy fancy stuff gon be shown
 
