@@ -8,7 +8,7 @@ int main()
 {
 	size_t size = 1000000;
 	int* arr = (int*)calloc(size, sizeof(int));
-	 int size = sizeof(arr) / sizeof(int);
+	int size = sizeof(arr) / sizeof(int);
 
 	for (int i = 0; i < size; ++i)
 	{
@@ -25,6 +25,8 @@ int main()
 	double elapsedTime = double(end - start) / CLOCKS_PER_SEC;
 
 	std::cout << "Time taken to sort " << size << " elements: " << elapsedTime << " seconds" << std::endl;
+
+	free(arr);
 
 	return 0;
 }
