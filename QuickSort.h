@@ -9,7 +9,6 @@
 class QuickSort
 {
 public:
-	std::unordered_map<int, int> hashMap;
 	int* unsorted;
 	int* sorted;
 	size_t size;
