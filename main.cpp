@@ -15,16 +15,16 @@ int main()
 		arr[i] = -(int)size + (rand() % size);
 	}
 
-	QuickSort quickSort = QuickSort(arr, size);
+	QuickSort quicksort = QuickSort(arr, size);
 
 	clock_t start = clock();
-	quickSort.sort();
+	quicksort.sort();
 	clock_t end = clock();
 
 	//quickSort.display();
 	double elapsedTime = double(end - start) / CLOCKS_PER_SEC;
 
-	std::cout << "Time taken: " << elapsedTime << " seconds" << std::endl;
+	std::cout << "Time taken to sort " << size << " elements: " << elapsedTime << " seconds" << std::endl;
 
 	return 0;
 }
