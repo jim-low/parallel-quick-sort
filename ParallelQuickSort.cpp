@@ -1,4 +1,5 @@
 #include <iostream>
+#include "omp.h"
 #include "ParallelQuickSort.h"
 
 #pragma region Notes
@@ -19,6 +20,7 @@ ParallelQuickSort::ParallelQuickSort(int* arr, size_t size)
 	this->sorted = (int*)calloc(size, sizeof(int));
 
 	// deep copy into array
+	#pragma omp parallel for
 	for (int i = 0; i < size; ++i)
 	{
 		this->unsorted[i] = arr[i];
@@ -55,12 +57,26 @@ void ParallelQuickSort::display()
 
 void ParallelQuickSort::quicksort(int* arr, int low, int high)
 {
-	if (low < high)
+	#pragma omp parallel
 	{
-		int pivotIndex = this->partition(arr, low, high);
+		if (low < high)
+		{
+			int pivotIndex = 0;
 
-		this->quicksort(arr, low, pivotIndex - 1);
-		this->quicksort(arr, pivotIndex + 1, high);
+			#pragma omp single
+			{
+				pivotIndex = this->partition(arr, low, high);
+			}
+
+			#pragma omp single nowait
+			{
+				#pragma omp task
+				this->quicksort(arr, low, pivotIndex - 1);
+
+				#pragma omp task
+				this->quicksort(arr, pivotIndex + 1, high);
+			}
+		}
 	}
 }
 
@@ -70,6 +86,7 @@ int ParallelQuickSort::partition(int* arr, int low, int high)
 	int pivot = arr[high];
 	int swapMarker = low - 1;
 
+	#pragma omp parallel for
 	for (int j = low; j < high; ++j) {
 		if (arr[j] <= pivot) {
 			++swapMarker;
