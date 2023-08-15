@@ -34,7 +34,7 @@ void performParallelQuickSort(int* arr, size_t size)
 
 int main()
 {
-	size_t size = 100000000;
+	size_t size = 1000000;
 	int* arr = (int*)calloc(size, sizeof(int));
 	//int size = sizeof(arr) / sizeof(int);
 
@@ -46,7 +46,7 @@ int main()
 	performParallelQuickSort(arr, size);
 	performQuickSort(arr, size);
 
-	//std::cout << "parallel quick sort has some problems (by some, i mean a lot)" << std::endl;
+	std::cout << "parallel quick sort is not really parallel (probably)" << std::endl;
 
 	free(arr);
 
