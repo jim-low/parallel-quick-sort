@@ -20,7 +20,7 @@ void performQuickSort(int* arr, size_t size)
 
 void performParallelQuickSort(int* arr, size_t size)
 {
-	QuickSort quicksort = QuickSort(arr, size);
+	ParallelQuickSort quicksort = ParallelQuickSort(arr, size);
 
 	clock_t start = clock();
 	quicksort.sort();
@@ -34,9 +34,8 @@ void performParallelQuickSort(int* arr, size_t size)
 
 int main()
 {
-	size_t size = 1000000;
+	size_t size = 10'000'000; // the ' is just to format the number to show how many zeroes there are
 	int* arr = (int*)calloc(size, sizeof(int));
-	//int size = sizeof(arr) / sizeof(int);
 
 	for (int i = 0; i < size; ++i)
 	{
