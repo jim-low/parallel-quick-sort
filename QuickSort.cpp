@@ -57,7 +57,7 @@ void QuickSort::quicksort(int* arr, int low, int high)
 int QuickSort::partition(int* arr, int low, int high)
 {
 	int pivot = arr[high];
-	int swapMarker = low - 1; // idk why but fuck it
+	int swapMarker = low - 1; // idk why but fuck it, but it works
 
 	for (int j = low; j < high; ++j) {
 		if (arr[j] <= pivot) {
