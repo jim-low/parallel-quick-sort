@@ -1,14 +1,14 @@
 #pragma once
 
-class OMPParallelQuickSort
+class MPIParallelQuickSort
 {
 public:
 	size_t size;
 	int* unsorted; // this has the sole purpose of displaying the result of the sort
 	int* sorted;
 
-	OMPParallelQuickSort(int* arr, size_t size);
-	~OMPParallelQuickSort();
+	MPIParallelQuickSort(int* arr, size_t size);
+	~MPIParallelQuickSort();
 
 private:
 };
