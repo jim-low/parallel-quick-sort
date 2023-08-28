@@ -1,11 +1,11 @@
 #include <iostream>
 #include "CUDAParallelQuickSort.h"
 
-CUDAParallelQuickSort::CUDAParallelQuickSort(int* arr, size_t size)
+CUDAParallelQuickSort::CUDAParallelQuickSort(float* arr, size_t size)
 {
 	this->size = size;
-	this->unsorted = (int*)calloc(size, sizeof(int));
-	this->sorted = (int*)calloc(size, sizeof(int));
+	this->unsorted = (float*)calloc(size, sizeof(float));
+	this->sorted = (float*)calloc(size, sizeof(float));
 
 	for (int i = 0; i < size; ++i)
 	{

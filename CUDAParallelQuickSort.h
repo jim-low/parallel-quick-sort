@@ -4,10 +4,10 @@ class CUDAParallelQuickSort
 {
 public:
 	size_t size;
-	int* unsorted; // this has the sole purpose of displaying the result of the sort
-	int* sorted;
+	float* unsorted; // this has the sole purpose of displaying the result of the sort
+	float* sorted;
 
-	CUDAParallelQuickSort(int* arr, size_t size);
+	CUDAParallelQuickSort(float* arr, size_t size);
 	~CUDAParallelQuickSort();
 
 private:

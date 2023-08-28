@@ -14,11 +14,11 @@
 
 #pragma endregion Notes
 
-OMPParallelQuickSort::OMPParallelQuickSort(int* arr, size_t size)
+OMPParallelQuickSort::OMPParallelQuickSort(float* arr, size_t size)
 {
 	this->size = size;
-	this->unsorted = (int*)calloc(size, sizeof(int));
-	this->sorted = (int*)calloc(size, sizeof(int));
+	this->unsorted = (float*)calloc(size, sizeof(float));
+	this->sorted = (float*)calloc(size, sizeof(float));
 
 	// deep copy into array
 	for (int i = 0; i < size; ++i)
