@@ -132,12 +132,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CUDAParallelQuickSort.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ParallelQuickSort.cpp" />
+    <ClCompile Include="MPIParallelQuickSort.cpp" />
+    <ClCompile Include="OMPParallelQuickSort.cpp" />
     <ClCompile Include="QuickSort.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ParallelQuickSort.h" />
+    <ClInclude Include="CUDAParallelQuickSort.h" />
+    <ClInclude Include="MPIParallelQuickSort.h" />
+    <ClInclude Include="OMPParallelQuickSort.h" />
     <ClInclude Include="QuickSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
