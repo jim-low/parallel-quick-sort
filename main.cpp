@@ -1,8 +1,9 @@
 #include <iostream>
 #include <ctime>
+#include <vector>
 #include "omp.h"
 #include "QuickSort.h"
-#include "ParallelQuickSort.h"
+#include "OMPParallelQuickSort.h"
 
 void performQuickSort(int* arr, size_t size)
 {
@@ -15,12 +16,12 @@ void performQuickSort(int* arr, size_t size)
 	//quicksort.display();
 	double elapsedTime = double(end - start) / CLOCKS_PER_SEC;
 
-	std::cout << "Time taken to sort " << size << " elements: " << elapsedTime << " seconds" << std::endl;
+	//std::cout << "Time taken to sort " << size << " elements: " << elapsedTime << " seconds" << std::endl;
 }
 
 void performParallelQuickSort(int* arr, size_t size)
 {
-	ParallelQuickSort quicksort = ParallelQuickSort(arr, size);
+	OMPParallelQuickSort quicksort = OMPParallelQuickSort(arr, size);
 
 	clock_t start = clock();
 	quicksort.sort();
@@ -34,20 +35,20 @@ void performParallelQuickSort(int* arr, size_t size)
 
 int main()
 {
-	size_t size = 10'000'000; // the ' is just to format the number to show how many zeroes there are
+	srand(time(NULL));
+
+	int size = 10'000;
 	int* arr = (int*)calloc(size, sizeof(int));
 
+	int min = 0;
+	int max = size;
 	for (int i = 0; i < size; ++i)
 	{
-		arr[i] = (rand() % size);
+		int value = min + rand() % (max - min + 1);
+		arr[i] = value;
 	}
 
 	performParallelQuickSort(arr, size);
-	performQuickSort(arr, size);
-
-	std::cout << "parallel quick sort is not really parallel (probably)" << std::endl;
-
-	free(arr);
 
 	return 0;
 }
