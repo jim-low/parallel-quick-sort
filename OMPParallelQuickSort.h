@@ -14,14 +14,7 @@ public:
 
 	OMPParallelQuickSort(int* arr, size_t size);
 	~OMPParallelQuickSort();
-	void sort();
-	void display(); // this is where all the fancy fancy stuff gon be shown
 
 private:
-	// this is where all the inner workings will be
-	void globalSort(int pivot);
-	void quicksort(int* arr, int low, int high);
-	int partition(int* arr, int low, int high); // returns index of pivot element
-	void swap(int* p1, int* p2);
 };
 
