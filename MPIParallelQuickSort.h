@@ -21,8 +21,12 @@ public:
 	float* unsorted; // this has the sole purpose of displaying the result of the sort
 	float* sorted;
 
+	int rank;
+	int numProcesses;
+
 	MPIParallelQuickSort(float* arr, size_t size);
 	~MPIParallelQuickSort();
+	void sort();
 
 private:
 };

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <mpi.h>
 #include "MPIParallelQuickSort.h"
 
 #pragma region
@@ -17,6 +18,7 @@
 
 MPIParallelQuickSort::MPIParallelQuickSort(float* arr, size_t size)
 {
+	// basic initializiation
 	this->size = size;
 	this->unsorted = (float*)calloc(size, sizeof(float));
 	this->sorted = (float*)calloc(size, sizeof(float));
@@ -26,10 +28,21 @@ MPIParallelQuickSort::MPIParallelQuickSort(float* arr, size_t size)
 		this->unsorted[i] = arr[i];
 		this->sorted[i] = arr[i];
 	}
+
+	// MPI Initialization
+	this->rank = 0;
+	this->numProcesses = 0;
+	MPI_Comm_rank(MPI_COMM_WORLD, &this->rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &this->numProcesses);
 }
 
 MPIParallelQuickSort::~MPIParallelQuickSort()
 {
 	free(this->unsorted);
 	free(this->sorted);
+}
+
+void MPIParallelQuickSort::sort()
+{
+
 }
