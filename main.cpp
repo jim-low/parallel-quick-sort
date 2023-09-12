@@ -12,13 +12,27 @@ float* generate_float_array(size_t size)
 {
 	float* arr = (float*)calloc(size, sizeof(float));
 
+	for (int i = 0; i < size; ++i)
+	{
+		arr[i] = ((float)rand()) / ((float)rand());
+	}
+
 	return arr;
 }
 
 int main(int argc, char** argv)
 {
-	size_t size = 10'000;
+	srand(time(0));
+	size_t size = 16;
 	float* arr = generate_float_array(size);
+
+	for (int i = 0; i < size; ++i)
+	{
+		std::cout << arr[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
 
 	// MPI Parallel Quick Sort
 	MPI_Init(&argc, &argv);
