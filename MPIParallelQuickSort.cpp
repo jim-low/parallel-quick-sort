@@ -18,6 +18,12 @@
 // 5. Each processor sorts the items it has, using quick sort.
 #pragma endregion
 
+struct CustomVector
+{
+	int size;
+	std::vector<float> data;
+};
+
 MPIParallelQuickSort::MPIParallelQuickSort(float* arr, size_t size)
 {
 	// basic initializiation
@@ -90,26 +96,72 @@ void MPIParallelQuickSort::sort()
 		}
 	}
 
+
+	printf("This is before the 3.2 shit for process %d:\n", this->rank);
+	for (int i = 0; i < lowerThanPivot.size(); ++i)
+	{
+		printf("%f ", lowerThanPivot.at(i));
+	}
+	for (int i = 0; i < higherThanPivot.size(); ++i)
+	{
+		printf("%f ", higherThanPivot.at(i));
+	}
+	printf("\n");
+
 	// 3.2 Split the processors into two groups and exchange data pair wise between
 	// them so that all processors in one group get data less than the pivot and
 	// the others get data larger than the pivot.
-	MPI_Win lowerArrayWin;
+
+	// create custom MPI datatype first to pass the vector data type across processors
+	CustomVector higherVector;
 	MPI_Win higherArrayWin;
-	MPI_Win_create(&lowerThanPivot, sizeof(std::vector<float>), sizeof(std::vector<float>), MPI_INFO_NULL, MPI_COMM_WORLD, &lowerArrayWin);
 	MPI_Win_create(&higherThanPivot, sizeof(std::vector<float>), sizeof(std::vector<float>), MPI_INFO_NULL, MPI_COMM_WORLD, &higherArrayWin);
+
+	// this fucking shit i swear
 	if (this->rank == 0)
 	{
-		MPI_Win_lock(MPI_LOCK_EXCLUSIVE, 1, 0, higherArrayWin);
-		MPI_Put(&higherThanPivot, higherThanPivot.size(), MPI_FLOAT, 1, 0, higherThanPivot.size(), MPI_FLOAT, higherArrayWin);
-		MPI_Win_unlock(1, higherArrayWin);
+		higherVector.size = higherThanPivot.size();
+		higherVector.data = higherThanPivot;
+
+		// create MPI datatype for custom structure
+		MPI_Datatype customVectorType;
+		int block_lengths[2] = { 1, higherVector.size };
+		MPI_Aint displacements[2] = { 0, sizeof(float) };
+		MPI_Datatype types[2] = { MPI_FLOAT, MPI_FLOAT };
+		MPI_Type_create_struct(2, block_lengths, displacements, types, &customVectorType);
+		MPI_Type_commit(&customVectorType);
+
+		MPI_Send(&higherVector, 1, customVectorType, 1, 0, MPI_COMM_WORLD); // send custom vector to processor 1
+		MPI_Type_free(&customVectorType); // free custom data type
 	}
-	else if (this->rank == 1)
+	else
 	{
+		// receive custom vector in next processor
+		MPI_Recv(&higherVector, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
+		// swap received vector with local lowerThanPivot vector
+		lowerThanPivot.swap(higherVector.data);
+
+		higherVector.size = higherThanPivot.size();
+		higherVector.data = higherThanPivot;
+
+		// create MPI datatype for custom structure
+		MPI_Datatype customVectorType;
+
+		// higher than pivot
+		int block_lengths[2] = { 1, higherVector.size };
+		MPI_Aint displacements[2] = { 0, sizeof(float) };
+		MPI_Datatype types[2] = { MPI_FLOAT, MPI_FLOAT };
+		MPI_Type_create_struct(2, block_lengths, displacements, types, &customVectorType);
+		MPI_Type_commit(&customVectorType);
+
+		MPI_Send(&higherVector, 1, customVectorType, 1, 0, MPI_COMM_WORLD); // send custom vector to processor 1
+		MPI_Type_free(&customVectorType); // free custom data type
 	}
-
 
 	// 4. Repeat 3.1 - 3.2 recursively for each half.
+	// how the fuck to repeat???????????????????????
+
 	// 5. Each processor sorts the items it has, using quick sort.
 
 	free(localArray);
