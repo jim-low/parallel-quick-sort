@@ -1,11 +1,11 @@
 #include <iostream>
 #include "QuickSort.h"
 
-QuickSort::QuickSort(int* arr, size_t size)
+QuickSort::QuickSort(float* arr, size_t size)
 {
 	this->size = size;
-	this->unsorted = (int*)calloc(size, sizeof(int));
-	this->sorted = (int*)calloc(size, sizeof(int));
+	this->unsorted = (float*)calloc(size, sizeof(float));
+	this->sorted = (float*)calloc(size, sizeof(float));
 
 	// deep copy into array
 	for (int i = 0; i < size; ++i)
@@ -42,7 +42,7 @@ void QuickSort::display()
 	std::cout << std::endl;
 }
 
-void QuickSort::quicksort(int* arr, int low, int high)
+void QuickSort::quicksort(float* arr, int low, int high)
 {
 	if (low < high)
 	{
@@ -54,9 +54,9 @@ void QuickSort::quicksort(int* arr, int low, int high)
 }
 
 // returns index of pivot
-int QuickSort::partition(int* arr, int low, int high)
+float QuickSort::partition(float* arr, int low, int high)
 {
-	int pivot = arr[high];
+	float pivot = arr[high];
 	int swapMarker = low - 1; // idk why but fuck it, but it works
 
 	for (int j = low; j < high; ++j) {
@@ -70,9 +70,9 @@ int QuickSort::partition(int* arr, int low, int high)
 	return swapMarker + 1;
 }
 
-void QuickSort::swap(int* p1, int* p2)
+void QuickSort::swap(float* p1, float* p2)
 {
-	int temp = *p1;
+	float temp = *p1;
 	*p1 = *p2;
 	*p2 = temp;
 }
