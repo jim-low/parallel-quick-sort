@@ -33,3 +33,50 @@ OMPParallelQuickSort::~OMPParallelQuickSort()
 	free(this->unsorted);
 	free(this->sorted);
 }
+
+void OMPParallelQuickSort::sort()
+{
+#pragma omp parallel
+	{
+#pragma omp single nowait
+		quicksort(this->sorted, 0, this->size - 1);
+	}
+}
+
+void OMPParallelQuickSort::quicksort(float* arr, int low, int high)
+{
+	if (low < high)
+	{
+		int pivotIndex = partition(arr, low, high);
+
+#pragma omp task
+		quicksort(arr, low, pivotIndex - 1);
+
+#pragma omp task
+		quicksort(arr, pivotIndex + 1, high);
+	}
+}
+
+// returns index of pivot
+int OMPParallelQuickSort::partition(float* arr, int low, int high)
+{
+	float pivot = arr[high];
+	int swapMarker = low - 1;
+
+	for (int j = low; j < high; ++j) {
+		if (arr[j] <= pivot) {
+			++swapMarker;
+			swap(&arr[swapMarker], &arr[j]);
+		}
+	}
+
+	swap(&arr[swapMarker + 1], &arr[high]);
+	return swapMarker + 1;
+}
+
+void OMPParallelQuickSort::swap(float* p1, float* p2)
+{
+	float temp = *p1;
+	*p1 = *p2;
+	*p2 = temp;
+}
