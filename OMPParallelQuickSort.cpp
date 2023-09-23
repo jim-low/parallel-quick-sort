@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "omp.h"
+#include <omp.h>
 #include "OMPParallelQuickSort.h"
 
 #pragma region Notes
@@ -97,4 +97,24 @@ void OMPParallelQuickSort::display()
 		std::cout << this->sorted[i] << " ";
 	}
 	std::cout << std::endl;
+}
+
+void OMPParallelQuickSort::sort2()
+{
+#pragma omp parallel
+	{
+		quicksort2(this->sorted, 0, this->size - 1);
+	}
+}
+
+void OMPParallelQuickSort::quicksort2(float* arr, int low, int high)
+{
+	if (low < high)
+	{
+		int pivotIndex = partition(arr, low, high);
+
+		quicksort2(arr, low, pivotIndex - 1);
+
+		quicksort2(arr, pivotIndex + 1, high);
+	}
 }

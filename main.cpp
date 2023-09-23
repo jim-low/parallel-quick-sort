@@ -26,17 +26,13 @@ int main(int argc, char** argv)
 	size_t size = 16;
 	float* arr = generate_float_array(size);
 
-	for (int i = 0; i < size; ++i)
-	{
-		std::cout << arr[i] << " ";
-	}
-	std::cout << std::endl;
-	std::cout << std::endl;
-	std::cout << std::endl;
-
-	OMPParallelQuickSort ompSort = OMPParallelQuickSort(arr, size);
-	ompSort.sort();
-	ompSort.display();
+	//for (int i = 0; i < size; ++i)
+	//{
+	//	std::cout << arr[i] << " ";
+	//}
+	//std::cout << std::endl;
+	//std::cout << std::endl;
+	//std::cout << std::endl;
 
 	// MPI Parallel Quick Sort
 	//MPI_Init(&argc, &argv);
@@ -45,16 +41,28 @@ int main(int argc, char** argv)
 	//MPI_Finalize();
 
 	// OpenMP Part (need to comment the upper part to run)
-	/*omp_set_num_threads(4);
+	double runtime;
+	omp_set_num_threads(4);
 
 	OMPParallelQuickSort ompSort = OMPParallelQuickSort(arr, size);
+	runtime = omp_get_wtime();
 	ompSort.sort();
+	ompSort.display();
 
-	for (int i = 0; i < size; ++i)
-	{
-		std::cout << ompSort.sorted[i] << " ";
-	}
-	std::cout << std::endl;*/
+	runtime = omp_get_wtime() - runtime;
+	// std::cout << "\n\nUsed " << runtime << " seconds." << std::endl;
+	printf("\nUsed %.9f seconds.\n\n", runtime);
+
+	// Part for used to compare
+	OMPParallelQuickSort ompSort2 = OMPParallelQuickSort(arr, size);
+	runtime = omp_get_wtime();
+	ompSort2.sort2();
+	ompSort2.display();
+
+	runtime = omp_get_wtime() - runtime;
+
+	printf("\nUsed %.9f seconds without OpenMP.\n\n", runtime);
+
 
 	free(arr);
 	return 0;
