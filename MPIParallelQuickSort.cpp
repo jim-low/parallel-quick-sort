@@ -114,8 +114,6 @@ void MPIParallelQuickSort::sort()
 
 	// create custom MPI datatype first to pass the vector data type across processors
 	CustomVector higherVector;
-	MPI_Win higherArrayWin;
-	MPI_Win_create(&higherThanPivot, sizeof(std::vector<float>), sizeof(std::vector<float>), MPI_INFO_NULL, MPI_COMM_WORLD, &higherArrayWin);
 
 	// this fucking shit i swear
 	if (this->rank == 0)
