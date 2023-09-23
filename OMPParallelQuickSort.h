@@ -3,10 +3,13 @@
 class OMPParallelQuickSort
 {
 public:
+	float* sorted;
+
 	OMPParallelQuickSort(float* arr, size_t size);
 	~OMPParallelQuickSort();
+
 	void sort();
-	float* sorted;
+	void display();
 
 private:
 	size_t size;

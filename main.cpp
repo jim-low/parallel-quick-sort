@@ -34,11 +34,15 @@ int main(int argc, char** argv)
 	std::cout << std::endl;
 	std::cout << std::endl;
 
+	OMPParallelQuickSort ompSort = OMPParallelQuickSort(arr, size);
+	ompSort.sort();
+	ompSort.display();
+
 	// MPI Parallel Quick Sort
-	MPI_Init(&argc, &argv);
-	MPIParallelQuickSort mpiSort = MPIParallelQuickSort(arr, size);
-	mpiSort.sort();
-	MPI_Finalize();
+	//MPI_Init(&argc, &argv);
+	//MPIParallelQuickSort mpiSort = MPIParallelQuickSort(arr, size);
+	//mpiSort.sort();
+	//MPI_Finalize();
 
 	// OpenMP Part (need to comment the upper part to run)
 	/*omp_set_num_threads(4);

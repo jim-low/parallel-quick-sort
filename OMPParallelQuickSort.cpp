@@ -80,3 +80,21 @@ void OMPParallelQuickSort::swap(float* p1, float* p2)
 	*p1 = *p2;
 	*p2 = temp;
 }
+
+void OMPParallelQuickSort::display()
+{
+	std::cout << "Unsorted Array:" << std::endl;
+	for (int i = 0; i < this->size; ++i)
+	{
+		std::cout << this->unsorted[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "Sorted Array:" << std::endl;
+	for (int i = 0; i < this->size; ++i)
+	{
+		std::cout << this->sorted[i] << " ";
+	}
+	std::cout << std::endl;
+}
