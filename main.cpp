@@ -2,7 +2,7 @@
 #include <ctime>
 #include <vector>
 #include <mpi.h>
-#include "omp.h"
+#include <omp.h>
 #include "QuickSort.h"
 #include "OMPParallelQuickSort.h"
 #include "MPIParallelQuickSort.h"
@@ -39,6 +39,18 @@ int main(int argc, char** argv)
 	MPIParallelQuickSort mpiSort = MPIParallelQuickSort(arr, size);
 	mpiSort.sort();
 	MPI_Finalize();
+
+	// OpenMP Part (need to comment the upper part to run)
+	/*omp_set_num_threads(4);
+
+	OMPParallelQuickSort ompSort = OMPParallelQuickSort(arr, size);
+	ompSort.sort();
+
+	for (int i = 0; i < size; ++i)
+	{
+		std::cout << ompSort.sorted[i] << " ";
+	}
+	std::cout << std::endl;*/
 
 	free(arr);
 	return 0;
