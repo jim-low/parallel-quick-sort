@@ -110,13 +110,15 @@ __host__ void CUDAParallelQuickSort::sort()
         std::cerr << "Failed to set Device Depth Limit! Error: " << cudaGetErrorString(cudaStatus) << std::endl;
     }
 
-    cudaQuicksort <<<1, 1>>>(this->d_sorted, 0, size - 1, 0);
+    cudaQuicksort <<<1, 1>> > (this->d_sorted, 0, size - 1, 0);
     cudaDeviceSynchronize();
 }
 
 //display the result
 void CUDAParallelQuickSort::display()
 {
+
+    //cudaEventRecord(start);
     cudaError_t cudaStatus = cudaMemcpy(this->h_unsorted, this->d_unsorted, size * sizeof(float), cudaMemcpyDeviceToHost);
     if (cudaStatus != cudaSuccess) {
         std::cerr << "cudaMemcpy failed! Error: " << cudaGetErrorString(cudaStatus) << std::endl;

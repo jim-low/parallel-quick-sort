@@ -9,6 +9,7 @@
 #include "CUDAParallelQuickSort.cuh"
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
+#include <chrono>
 
 float* generate_float_array(size_t size)
 {
@@ -38,7 +39,7 @@ float* generate_descending_array(size_t size)
 int main(int argc, char** argv)
 {
 	srand(time(0));
-	size_t size = 10000;
+	size_t size = 100;
 	float* arr = generate_descending_array(size);
 
 	//for (int i = 0; i < size; ++i)
@@ -79,27 +80,27 @@ int main(int argc, char** argv)
 	//printf("\nUsed %.9f seconds without OpenMP.\n\n", runtime);
 
 	// OpenMP Part (need to comment the upper part to run)
-	double runtime;
-	omp_set_num_threads(8);
+	//double runtime;
+	//omp_set_num_threads(8);
 
-	OMPParallelQuickSort ompSort = OMPParallelQuickSort(arr, size);
-	runtime = omp_get_wtime();
-	ompSort.sort();
-	//ompSort.display();
+	//OMPParallelQuickSort ompSort = OMPParallelQuickSort(arr, size);
+	//runtime = omp_get_wtime();
+	//ompSort.sort();
+	////ompSort.display();
 
-	runtime = omp_get_wtime() - runtime;
-	// std::cout << "\n\nUsed " << runtime << " seconds." << std::endl;
-	printf("\nUsed %.9f seconds.\n\n", runtime);
+	//runtime = omp_get_wtime() - runtime;
+	//// std::cout << "\n\nUsed " << runtime << " seconds." << std::endl;
+	//printf("\nUsed %.9f seconds.\n\n", runtime);
 
-	// Part for used to compare
-	QuickSort ompSort2 = QuickSort(arr, size);
-	runtime = omp_get_wtime();
-	ompSort2.sort();
-	//ompSort2.display();
+	//// Part for used to compare
+	//QuickSort ompSort2 = QuickSort(arr, size);
+	//runtime = omp_get_wtime();
+	//ompSort2.sort();
+	////ompSort2.display();
 
-	runtime = omp_get_wtime() - runtime;
+	//runtime = omp_get_wtime() - runtime;
 
-	printf("\nUsed %.9f seconds without OpenMP.\n\n", runtime);
+	//printf("\nUsed %.9f seconds without OpenMP.\n\n", runtime);
 
 	//CUDA
 	//size_t free_memory, total_memory;
@@ -119,7 +120,7 @@ int main(int argc, char** argv)
 
 
 	//CUDA Parallel Quick Sort
-	/*if (arr != nullptr) {
+	if (arr != nullptr) {
 
 		QuickSort standardSorter(arr, size);
 
@@ -136,17 +137,22 @@ int main(int argc, char** argv)
 
 		float milliseconds = 0;
 		cudaEventElapsedTime(&milliseconds, start, stop);
-		printf("CUDA took: %.2f ms\n", milliseconds);
+		printf("CUDA Sort Duration: %.2f ms\n", milliseconds);
 
 		CUDAsorter.display();
 
+		auto start_time = std::chrono::high_resolution_clock::now();
 		standardSorter.sort();
+		auto end_time = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_time = end_time - start_time;
+		std::cout << "Standard Sort Duration: " << elapsed_time.count() << "ms" << std::endl;
 		standardSorter.display();
 		
 	}
+
 	else {
 		std::cerr << "Error: Failed to allocate memory for arr." << std::endl;
-	}*/
+	}
 
 
 	free(arr);
