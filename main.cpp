@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 
 	// OpenMP Part (need to comment the upper part to run)
 	double runtime;
-	omp_set_num_threads(4);
+	omp_set_num_threads(8);
 
 	OMPParallelQuickSort ompSort = OMPParallelQuickSort(arr, size);
 	runtime = omp_get_wtime();
@@ -54,15 +54,14 @@ int main(int argc, char** argv)
 	printf("\nUsed %.9f seconds.\n\n", runtime);
 
 	// Part for used to compare
-	OMPParallelQuickSort ompSort2 = OMPParallelQuickSort(arr, size);
+	QuickSort ompSort2 = QuickSort(arr, size);
 	runtime = omp_get_wtime();
-	ompSort2.sort2();
+	ompSort2.sort();
 	ompSort2.display();
 
 	runtime = omp_get_wtime() - runtime;
 
 	printf("\nUsed %.9f seconds without OpenMP.\n\n", runtime);
-
 
 	free(arr);
 	return 0;

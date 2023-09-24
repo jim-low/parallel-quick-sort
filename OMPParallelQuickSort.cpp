@@ -47,13 +47,12 @@ void OMPParallelQuickSort::quicksort(float* arr, int low, int high)
 {
 	if (low < high)
 	{
-		int pivotIndex = partition(arr, low, high);
+		int pivotIndex = this->partition(arr, low, high);
 
 #pragma omp task
-		quicksort(arr, low, pivotIndex - 1);
-
+			this->quicksort(arr, low, pivotIndex - 1);
 #pragma omp task
-		quicksort(arr, pivotIndex + 1, high);
+			this->quicksort(arr, pivotIndex + 1, high);
 	}
 }
 
@@ -97,24 +96,4 @@ void OMPParallelQuickSort::display()
 		std::cout << this->sorted[i] << " ";
 	}
 	std::cout << std::endl;
-}
-
-void OMPParallelQuickSort::sort2()
-{
-#pragma omp parallel
-	{
-		quicksort2(this->sorted, 0, this->size - 1);
-	}
-}
-
-void OMPParallelQuickSort::quicksort2(float* arr, int low, int high)
-{
-	if (low < high)
-	{
-		int pivotIndex = partition(arr, low, high);
-
-		quicksort2(arr, low, pivotIndex - 1);
-
-		quicksort2(arr, pivotIndex + 1, high);
-	}
 }
