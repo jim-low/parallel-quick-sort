@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 #pragma region
 // 1. Divide the n data values into p equal parts [n/p] data values per processor.
@@ -20,14 +21,19 @@ public:
 	size_t size;
 	float* unsorted; // this has the sole purpose of displaying the result of the sort
 	float* sorted;
-
 	int rank;
-	int numProcesses;
 
-	MPIParallelQuickSort(float* arr, size_t size);
+	MPIParallelQuickSort(float* arr, size_t size, int rank, int numProcesses);
 	~MPIParallelQuickSort();
 	void sort();
+	void display();
 
 private:
+	int numProcesses;
+	int margin;
+	int half_size;
+
+	void splitDataInProcessors(std::vector<float>* lower, std::vector<float>* higher, float* arr, float pivot);
+	void exchangeDataInProcessors(std::vector<float>* lower, std::vector<float>* higher);
 };
 

@@ -18,6 +18,8 @@ public:
 	void sort();
 	void display(); // this is where all the fancy fancy stuff gon be shown
 
+	float* getSorted();
+
 private:
 	// this is where all the inner workings will be
 	void quicksort(float* arr, int low, int high);

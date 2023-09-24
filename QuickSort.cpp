@@ -42,6 +42,11 @@ void QuickSort::display()
 	std::cout << std::endl;
 }
 
+float* QuickSort::getSorted()
+{
+	return this->sorted;
+}
+
 void QuickSort::quicksort(float* arr, int low, int high)
 {
 	if (low < high)
