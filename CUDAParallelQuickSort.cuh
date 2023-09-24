@@ -4,7 +4,7 @@
 #include "device_launch_parameters.h"
 
 __device__ float partition(float* arr, int low, int high);
-__global__ void cudaQuicksort(float* arr, int left, int right);
+__global__ void cudaQuicksort(float* arr, int left, int right, int maxDepth);
 
 class CUDAParallelQuickSort
 {

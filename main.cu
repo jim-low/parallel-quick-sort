@@ -24,9 +24,8 @@ float* generate_float_array(size_t size)
 
 int main(int argc, char** argv)
 {
-
 	srand(time(0));
-	size_t size = 10;
+	size_t size = 5;
 	float* arr = generate_float_array(size);
 
 	//for (int i = 0; i < size; ++i)
@@ -67,32 +66,45 @@ int main(int argc, char** argv)
 	//printf("\nUsed %.9f seconds without OpenMP.\n\n", runtime);
 
 	//CUDA
-	
+	size_t free_memory, total_memory;
+	cudaError_t cudaStatus = cudaMemGetInfo(&free_memory, &total_memory);
+	if (cudaStatus != cudaSuccess) {
+		std::cerr << "cudaMemGetInfo failed! Error: " << cudaGetErrorString(cudaStatus) << std::endl;
+		// Handle the error
+	}
+	else {
+		std::cout << "CUDA: Total GPU Memory: " << total_memory / (1024 * 1024) << " MB" << std::endl;
+		std::cout << "CUDA: Free GPU Memory: " << free_memory / (1024 * 1024) << " MB" << std::endl;
+	}
+
+	size_t data_size_bytes = size * sizeof(float);
+	double data_size_mb = static_cast<double>(data_size_bytes) / (1024 * 1024);
+	std::cout << "CUDA: Requirement to sort array: " << data_size_mb << " MB" << std::endl;
+
+
 	//CUDA Parallel Quick Sort
 	if (arr != nullptr) {
-
-		cudaError_t cudaStatus = cudaStreamQuery(0);
-		if (cudaStatus != cudaSuccess) {
-			printf("CUDA IS NOT FREED.\n");
-		}
 
 		QuickSort standardSorter(arr, size);
 
 		CUDAParallelQuickSort CUDAsorter(arr, size);
 
-		cudaFree(0);
-		cudaError_t cudaStatus1 = cudaStreamQuery(0);
-		if (cudaStatus1 != cudaSuccess) {
-			printf("Stream 0 is OCCUPIED.\n");
-		}
+		cudaEvent_t start, stop;
+		cudaEventCreate(&start);
+		cudaEventCreate(&stop);
 
+		cudaEventRecord(start);
 		CUDAsorter.sort();
+		cudaEventRecord(stop);
+		cudaEventSynchronize(stop);
+
+		float milliseconds = 0;
+		cudaEventElapsedTime(&milliseconds, start, stop);
+		printf("CUDA took: %.2f ms\n", milliseconds);
 
 		CUDAsorter.display();
 
 		standardSorter.sort();
-
-		standardSorter.display();
 		
 	}
 	else {
