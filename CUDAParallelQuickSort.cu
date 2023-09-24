@@ -14,13 +14,6 @@ CUDAParallelQuickSort::CUDAParallelQuickSort(float* arr, size_t size)
         return;
     }
 
-    cudaError_t err = cudaDeviceSetLimit(cudaLimitDevRuntimeSyncDepth, 24);
-    if (err != cudaSuccess) {
-        std::cerr << "cudaDeviceSetLimit failed! Error: " << cudaGetErrorString(err) << std::endl;
-        // Handle the error
-        return;
-    }
-
     this->size = size;
 
     this->h_unsorted = (float*)calloc(size, sizeof(float));
@@ -76,39 +69,41 @@ __device__ void quickSort(float* arr, int left, int right) {
     }
 }
 
+
 //global functions can be called from the host and executed on the device.
-__global__ void cudaQuicksort(float* arr, int left, int right, int maxDepth) {
-    
+__global__ void cudaQuicksort(float* arr, int left, int right) {
+    __syncthreads();
+
     int pivotIndex = partition(arr, left, right); //getting the pivot index and initiating the partition process
 
-    if (left < right)
+    cudaStream_t anotherFuckingStream;
+    cudaStreamCreateWithFlags(&anotherFuckingStream, cudaStreamNonBlocking);
+
+    if (left < pivotIndex - 1)
     {
-        if (maxDepth > 0) {
-            //cudaStreamCreateWithFlags(&s1, cudaStreamNonBlocking);
-            cudaQuicksort <<<1, 8>>> (arr, left, pivotIndex - 1, maxDepth - 1);
-
-            //cudaStreamCreateWithFlags(&s2, cudaStreamNonBlocking);
-            cudaQuicksort <<<1, 8>>> (arr, pivotIndex + 1, right, maxDepth - 1);
-
-            quickSort(arr, left, right);
-            //printf("MAXDEPTH LEFT: %d.\n", maxDepth);
-        
-        }
-
-        else {
-            //printf("MAXDEPTH REACHED, RESORTING TO STANDARD SORT\n");
-            quickSort(arr, left, right);
-        }
-        
-        
-
+        cudaQuicksort << <1, 8, 0, anotherFuckingStream >> > (arr, left, pivotIndex - 1);
     }
+
+    if (right > pivotIndex + 1)
+    {
+        cudaQuicksort << <1, 8, 0, anotherFuckingStream >> > (arr, pivotIndex + 1, right);
+    }
+
+    cudaStreamDestroy(anotherFuckingStream);
 }
 
 __host__ void CUDAParallelQuickSort::sort()
 {
-    cudaQuicksort<<<1, 8>>>(this->d_sorted, 0, size - 1, 16);
-    cudaDeviceSynchronize();
+    cudaStream_t mainFuckingStream; //initializing stream
+
+    //preset cudaStream, initilaize s1 to the new Stream, Set flag to be able to overlap other streams
+    cudaStreamCreateWithFlags(&mainFuckingStream, cudaStreamNonBlocking);
+
+    cudaQuicksort << <1, 8, 0, mainFuckingStream >> > (this->d_sorted, 0, size - 1);
+
+    cudaStreamSynchronize(mainFuckingStream);
+
+    cudaStreamDestroy(mainFuckingStream);
 }
 
 //display the result
