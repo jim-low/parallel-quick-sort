@@ -27,9 +27,6 @@
     <ClCompile Include="MPIParallelQuickSort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CUDAParallelQuickSort.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QuickSort.h">
@@ -41,8 +38,16 @@
     <ClInclude Include="MPIParallelQuickSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CUDAParallelQuickSort.h">
+    <ClInclude Include="CUDAParallelQuickSort.cuh">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="CUDAParallelQuickSort.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="main.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>

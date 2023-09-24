@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "omp.h"
+#include <omp.h>
 #include "OMPParallelQuickSort.h"
 
 #pragma region Notes
@@ -39,21 +39,39 @@ void OMPParallelQuickSort::sort()
 #pragma omp parallel
 	{
 #pragma omp single nowait
-		quicksort(this->sorted, 0, this->size - 1);
+		this->quicksort(this->sorted, 0, this->size - 1);
 	}
+}
+
+void OMPParallelQuickSort::display()
+{
+	std::cout << "Unsorted Array:" << std::endl;
+	for (int i = 0; i < this->size; ++i)
+	{
+		std::cout << this->unsorted[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "Sorted Array:" << std::endl;
+	for (int i = 0; i < this->size; ++i)
+	{
+		std::cout << this->sorted[i] << " ";
+	}
+	std::cout << std::endl;
 }
 
 void OMPParallelQuickSort::quicksort(float* arr, int low, int high)
 {
 	if (low < high)
 	{
-		int pivotIndex = partition(arr, low, high);
+		int pivotIndex = this->partition(arr, low, high);
 
 #pragma omp task
-		quicksort(arr, low, pivotIndex - 1);
-
+			this->quicksort(arr, low, pivotIndex - 1);
 #pragma omp task
-		quicksort(arr, pivotIndex + 1, high);
+			this->quicksort(arr, pivotIndex + 1, high);
+#pragma omp taskwait
 	}
 }
 
@@ -79,22 +97,4 @@ void OMPParallelQuickSort::swap(float* p1, float* p2)
 	float temp = *p1;
 	*p1 = *p2;
 	*p2 = temp;
-}
-
-void OMPParallelQuickSort::display()
-{
-	std::cout << "Unsorted Array:" << std::endl;
-	for (int i = 0; i < this->size; ++i)
-	{
-		std::cout << this->unsorted[i] << " ";
-	}
-	std::cout << std::endl;
-	std::cout << std::endl;
-
-	std::cout << "Sorted Array:" << std::endl;
-	for (int i = 0; i < this->size; ++i)
-	{
-		std::cout << this->sorted[i] << " ";
-	}
-	std::cout << std::endl;
 }
