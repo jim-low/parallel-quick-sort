@@ -85,18 +85,18 @@ __global__ void cudaQuicksort(float* arr, int left, int right, int maxDepth) {
 
     if (left < pivotIndex - 1)
     {
-        cudaStream_t mainFuckingStream;
-        cudaStreamCreateWithFlags(&mainFuckingStream, cudaStreamNonBlocking);
-        cudaQuicksort <<<1, 1, 0, mainFuckingStream>>> (arr, left, pivotIndex - 1, maxDepth + 1);
-        cudaStreamDestroy(mainFuckingStream);
+        cudaStream_t s1;
+        cudaStreamCreateWithFlags(&s1, cudaStreamNonBlocking);
+        cudaQuicksort <<<1, 1, 0, s1>>> (arr, left, pivotIndex - 1, maxDepth + 1);
+        cudaStreamDestroy(s1);
     }
 
     if (right > pivotIndex + 1)
     {
-        cudaStream_t anotherFuckingStream;
-        cudaStreamCreateWithFlags(&anotherFuckingStream, cudaStreamNonBlocking);
-        cudaQuicksort << <1, 1, 0, anotherFuckingStream >> > (arr, pivotIndex + 1, right, maxDepth + 1);
-        cudaStreamDestroy(anotherFuckingStream);
+        cudaStream_t s2;
+        cudaStreamCreateWithFlags(&s2, cudaStreamNonBlocking);
+        cudaQuicksort <<<1, 1, 0, s2 >> > (arr, pivotIndex + 1, right, maxDepth + 1);
+        cudaStreamDestroy(s2);
     }
 
     
