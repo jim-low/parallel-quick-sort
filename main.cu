@@ -49,7 +49,7 @@ void standardQuicksortTest(float* arr, int size, bool display = false)
 	}
 
 	std::chrono::duration<double, std::milli> elapsed_time = end_time - start_time;
-	printf("Elapsed Time (Standard Sort): %.2f ms\n", elapsed_time);
+	printf("Elapsed Time (Standard Sort): %.5f ms\n", elapsed_time);
 }
 
 void OMPSortTest(float* arr, int size, bool display = false)
@@ -64,7 +64,7 @@ void OMPSortTest(float* arr, int size, bool display = false)
 		ompSort.display();
 	}
 	float elapsed_time = end_time - start_time;
-	printf("Elapsed Time (OpenMP): %.2f ms\n", elapsed_time);
+	printf("Elapsed Time (OpenMP): %.5f ms\n", elapsed_time * 1000);
 
 }
 
@@ -95,7 +95,7 @@ void MPISortTest(int* argc, char*** argv, float* arr, int size, int* rank, int* 
 			mpiSort.display();
 		}
 		std::chrono::duration<double, std::milli> elapsed_time = end_time - start_time;
-		printf("Elapsed Time (MPI Sort): %.2f ms\n", elapsed_time);
+		printf("Elapsed Time (MPI Sort): %.5f ms\n", elapsed_time);
 	}
 }
 
@@ -123,7 +123,7 @@ void CUDAQuicksortTest(float* arr, int size, bool display = false)
 
 		float milliseconds = 0;
 		cudaEventElapsedTime(&milliseconds, start, stop);
-		printf("CUDA Sort Duration: %.2f ms\n", milliseconds);
+		printf("Elapsed Time (CUDA Sort): %.5f ms\n", milliseconds);
 		
 	}
 	else {
@@ -134,8 +134,8 @@ void CUDAQuicksortTest(float* arr, int size, bool display = false)
 int main(int argc, char** argv)
 {
 	srand(time(0));
-	size_t size = 10;
-	float* arr = generate_float_array(size);
+	size_t size = 100;
+	float* arr = generate_descending_array(size);
 
 	int rank = 0;
 	int numProcesses = 0;
@@ -144,6 +144,7 @@ int main(int argc, char** argv)
 
 	if (rank == 0)
 	{
+		std::cout << std::endl;
 		standardQuicksortTest(arr, size);
 		std::cout << std::endl;
 		OMPSortTest(arr, size);
