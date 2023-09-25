@@ -31,49 +31,42 @@ int main(int argc, char** argv)
 	float* arr = generate_float_array(size);
 
 	// MPI Parallel Quick Sort
-	MPI_Init(&argc, &argv);
-	int rank, numProcesses;
-	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	MPI_Comm_size(MPI_COMM_WORLD, &numProcesses);
+	//MPI_Init(&argc, &argv);
+	//int rank, numProcesses;
+	//MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	//MPI_Comm_size(MPI_COMM_WORLD, &numProcesses);
 
-	if (rank == 0)
-	{
-		std::cout << std::endl;
-		std::cout << "Array size: " << size << " (descending)" << std::endl;
-		std::cout << std::endl;
-	}
+	//MPIParallelQuickSort mpiSort = MPIParallelQuickSort(arr, size, rank, numProcesses);
+	//auto start_time = std::chrono::high_resolution_clock::now();
+	//mpiSort.sort();
+	//auto end_time = std::chrono::high_resolution_clock::now();
+	//MPI_Barrier(MPI_COMM_WORLD);
+	//if (rank == 0)
+	//{
+	//	//mpiSort.display();
+	//	std::chrono::duration<double, std::milli> elapsed_time = end_time - start_time;
+	//	std::cout << "Elapsed time (MPI): " << elapsed_time.count() << " milliseconds" << std::endl;
+	//}
+	//MPI_Barrier(MPI_COMM_WORLD);
 
-	MPIParallelQuickSort mpiSort = MPIParallelQuickSort(arr, size, rank, numProcesses);
-	auto start_time = std::chrono::high_resolution_clock::now();
-	mpiSort.sort();
-	auto end_time = std::chrono::high_resolution_clock::now();
-	MPI_Barrier(MPI_COMM_WORLD);
-	if (rank == 0)
-	{
-		//mpiSort.display();
-		std::chrono::duration<double, std::milli> elapsed_time = end_time - start_time;
-		std::cout << "Elapsed time (MPI): " << elapsed_time.count() << " milliseconds" << std::endl;
-	}
-	MPI_Barrier(MPI_COMM_WORLD);
+	//OMPParallelQuickSort ompSort = OMPParallelQuickSort(arr, size);
+	//runtime = omp_get_wtime();
+	//ompSort.sort();
+	//ompSort.display();
 
-	OMPParallelQuickSort ompSort = OMPParallelQuickSort(arr, size);
-	runtime = omp_get_wtime();
-	ompSort.sort();
-	ompSort.display();
-
-	runtime = omp_get_wtime() - runtime;
+	//runtime = omp_get_wtime() - runtime;
 	// std::cout << "\n\nUsed " << runtime << " seconds." << std::endl;
-	printf("\nUsed %.9f seconds.\n\n", runtime);
+	//printf("\nUsed %.9f seconds.\n\n", runtime);
 
 	// Part for used to compare
-	QuickSort ompSort2 = QuickSort(arr, size);
-	runtime = omp_get_wtime();
-	ompSort2.sort();
-	ompSort2.display();
+	//QuickSort ompSort2 = QuickSort(arr, size);
+	//runtime = omp_get_wtime();
+	//ompSort2.sort();
+	//ompSort2.display();
 
-	runtime = omp_get_wtime() - runtime;
+	//runtime = omp_get_wtime() - runtime;
 
-	printf("\nUsed %.9f seconds without OpenMP.\n\n", runtime);
+	//printf("\nUsed %.9f seconds without OpenMP.\n\n", runtime);
 
 
 	//CUDA
