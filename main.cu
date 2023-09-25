@@ -39,8 +39,8 @@ float* generate_descending_array(size_t size)
 int main(int argc, char** argv)
 {
 	srand(time(0));
-	size_t size = 100;
-	float* arr = generate_descending_array(size);
+	size_t size = 10000000;
+	float* arr = generate_float_array(size);
 
 	//for (int i = 0; i < size; ++i)
 	//{
@@ -139,14 +139,14 @@ int main(int argc, char** argv)
 		cudaEventElapsedTime(&milliseconds, start, stop);
 		printf("CUDA Sort Duration: %.2f ms\n", milliseconds);
 
-		CUDAsorter.display();
+		//CUDAsorter.display();
 
 		auto start_time = std::chrono::high_resolution_clock::now();
 		standardSorter.sort();
 		auto end_time = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double, std::milli> elapsed_time = end_time - start_time;
-		std::cout << "Standard Sort Duration: " << elapsed_time.count() << "ms" << std::endl;
-		standardSorter.display();
+		std::cout << "\n\n Standard Sort Duration: " << elapsed_time.count() << "ms" << std::endl;
+		//standardSorter.display();
 		
 	}
 
