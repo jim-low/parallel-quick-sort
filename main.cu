@@ -99,7 +99,7 @@ void MPISortTest(int* argc, char*** argv, float* arr, int size, int* rank, int* 
 	}
 }
 
-void CUDAQuicksortTest(float* arr, int size, bool display = true)
+void CUDAQuicksortTest(float* arr, int size, bool display = false)
 {
 	if (arr != nullptr) {
 
@@ -140,15 +140,15 @@ int main(int argc, char** argv)
 	int rank = 0;
 	int numProcesses = 0;
 
-	//MPISortTest(&argc, &argv, arr, size, &rank, &numProcesses);
+	MPISortTest(&argc, &argv, arr, size, &rank, &numProcesses);
 
 	if (rank == 0)
 	{
-		standardQuicksortTest(arr, size, true);
+		standardQuicksortTest(arr, size);
 		std::cout << std::endl;
-		OMPSortTest(arr, size, true);
+		OMPSortTest(arr, size);
 		std::cout << std::endl;
-		//CUDAQuicksortTest(arr, size);
+		CUDAQuicksortTest(arr, size);
 	}
 
 	free(arr);
